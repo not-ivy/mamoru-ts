@@ -524,6 +524,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@iv/themes@npm:@jsr/iv__themes@^1.0.2":
+  version: 1.0.2
+  resolution: "@jsr/iv__themes@npm:1.0.2::__archiveUrl=https%3A%2F%2Fnpm.jsr.io%2F~%2F11%2F%40jsr%2Fiv__themes%2F1.0.2.tgz"
+  checksum: 10c0/47d050b5c75d4b8393504af3dcfdfecbb061ef4c39b142b9676252e83c365aa72f983435edf1c5d5b045ec907321c100944dd6dd6bb155f849ec02c1e1477e71
+  languageName: node
+  linkType: hard
+
 "@jridgewell/gen-mapping@npm:^0.3.5":
   version: 0.3.8
   resolution: "@jridgewell/gen-mapping@npm:0.3.8"
@@ -768,6 +775,13 @@ __metadata:
   peerDependencies:
     solid-js: ^1.8.6
   checksum: 10c0/220d162ded9e9ef4374d587cf33878ba4a1dfdddf53bc76a7f1cfb635f72d458b2160aa47c2187b4524d8eea18963ee22ea834997490ef6f136fe8ca553a5f5c
+  languageName: node
+  linkType: hard
+
+"@std/yaml@npm:@jsr/std__yaml@^1.0.5":
+  version: 1.0.5
+  resolution: "@jsr/std__yaml@npm:1.0.5::__archiveUrl=https%3A%2F%2Fnpm.jsr.io%2F~%2F11%2F%40jsr%2Fstd__yaml%2F1.0.5.tgz"
+  checksum: 10c0/2f67c9af6c58eabe34683f1c69e91ac2a579896f3cb38fa58015130fab643a16ba3342db0dbdbbb3cfd5fe0ed32ab94e209a38b027d037083ecf5984b5d12edb
   languageName: node
   linkType: hard
 
@@ -3232,7 +3246,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "mamoru-web@workspace:."
   dependencies:
+    "@iv/themes": "npm:@jsr/iv__themes@^1.0.2"
     "@solidjs/router": "npm:^0.15.2"
+    "@std/yaml": "npm:@jsr/std__yaml@^1.0.5"
     "@tailwindcss/vite": "npm:^4.0.0-beta.7"
     eslint: "npm:^9.17.0"
     eslint-plugin-solid: "npm:^0.14.5"
