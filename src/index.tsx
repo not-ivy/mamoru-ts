@@ -1,8 +1,13 @@
 /* @refresh reload */
 import { render } from 'solid-js/web'
+import { Route, Router } from '@solidjs/router'
+import Index from './routes'
+import Error404 from './routes/_404'
 import './index.css'
-import App from './App.tsx'
 
-const root = document.getElementById('root')
-
-render(() => <App />, root!)
+render(() => (
+  <Router>
+    <Route path="/" component={Index} />
+    <Route path="*404" component={Error404} />
+  </Router>
+), document.getElementById('root')!)
