@@ -1,7 +1,7 @@
 import { redirect } from '@solidjs/router';
 import { parse, stringify } from '@std/yaml';
 import { createSignal } from 'solid-js';
-import { StoredServer } from '../../../types/serverlist';
+import type { StoredServer } from '../../../types/serverlist';
 
 export default function ServerForm() {
   let addressRef!: HTMLInputElement;
@@ -19,7 +19,7 @@ export default function ServerForm() {
   const onAddServer = () => {
     const existingServers: StoredServer[] = JSON.parse(localStorage.getItem('servers')! || '[]');
     const duplicate = existingServers.findIndex((v) => v.address === addressRef.value);
-    if (duplicate === -1) localStorage.setItem('servers', JSON.stringify([...existingServers, { name: status().server_name, address: addressRef.value, dateAdded: Date.now() }]));
+    if (duplicate === -1) localStorage.setItem('servers', JSON.stringify([...existingServers, { name: (status() as StoredServer).server_name, address: addressRef.value, dateAdded: Date.now() }]));
     redirect('/serverlist');
   };
 

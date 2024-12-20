@@ -1,7 +1,9 @@
 interface StoredServer {
+  server_name: string
   name: string,
   dateAdded: number,
-  address: string
+  address: string,
+  auth_endpoint: string
 }
 
 export type {
