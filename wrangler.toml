@@ -7,11 +7,11 @@ DISCORD_CLIENT_ID="1305913184204623964" # or provide your own
 
 [[ kv_namespaces ]]
 binding = "tokens"
-id = "83128358-3fb8-457a-afac-7a7cf7cb8a24"
+id = "40b7e9d19a0344d5b994c5c785228fed"
 
 [[ kv_namespaces ]]
 binding = "states"
-id = "171163db-0a72-48bc-97f5-b0f731a03c11"
+id = "1875b126281a45919b4bea0d8eaf7f7d"
 
 [observability]
 enabled = true

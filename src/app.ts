@@ -1,6 +1,7 @@
 import { generateState, OAuth2RequestError, type Discord } from 'arctic';
 import { createId as cuid2 } from '@paralleldrive/cuid2';
 import { Hono } from 'hono';
+import { cors } from 'hono/cors'
 import makeArctic from './libs/auth.js';
 import type { DiscordConnections, DiscordIdentify } from './types.js';
 
@@ -10,6 +11,10 @@ app.use(async (c, next) => {
   c.set('arctic', makeArctic(c.env.DISCORD_CLIENT_ID, c.env.DISCORD_CLIENT_SECRET, c.env.DISCORD_REDIRECT_URI));
   await next();
 });
+
+app.use('*', async (c, next) => cors({
+  origin: c.env.CLIENT_URL
+})(c, next))
 
 app.get('/', c => c.redirect(c.env.CLIENT_URL));
 
@@ -34,7 +39,7 @@ app.get('/callback', async c => {
     const token = await c.var.arctic.validateAuthorizationCode(code);
     const id = cuid2();
     await c.env.tokens.put(id, JSON.stringify(token.data), { expirationTtl: token.accessTokenExpiresInSeconds() });
-    return c.text(id);
+    return c.redirect(`${c.env.CLIENT_URL}/signin?id=${id}`);
   } catch (error) {
     if (!(error instanceof OAuth2RequestError)) {
       console.error(error);
@@ -63,7 +68,7 @@ app.get('/info', async c => {
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
     const connections = await (await fetch('https://discord.com/api/users/@me/connections', authOptions)).json() as DiscordConnections;
     const steamConnection = connections.find(it => it.type === 'steam' && it.verified);
-    return c.json({ discord: identify.id, steam: steamConnection?.id });
+    return c.json({ name: identify.global_name, discord: identify.id, steam: steamConnection?.id });
   } catch {
     return c.text('fail', 500);
   }
