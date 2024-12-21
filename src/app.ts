@@ -1,7 +1,7 @@
 import { generateState, OAuth2RequestError, type Discord } from 'arctic';
 import { createId as cuid2 } from '@paralleldrive/cuid2';
 import { Hono } from 'hono';
-import { cors } from 'hono/cors'
+import { cors } from 'hono/cors';
 import makeArctic from './libs/auth.js';
 import type { DiscordConnections, DiscordIdentify } from './types.js';
 
@@ -9,12 +9,12 @@ const app = new Hono<{ Bindings: Env; Variables: { arctic: Discord } }>();
 
 app.use(async (c, next) => {
   c.set('arctic', makeArctic(c.env.DISCORD_CLIENT_ID, c.env.DISCORD_CLIENT_SECRET, c.env.DISCORD_REDIRECT_URI));
-  await next();
+  return next();
 });
 
 app.use('*', async (c, next) => cors({
-  origin: c.env.CLIENT_URL
-})(c, next))
+  origin: c.env.CLIENT_URL,
+})(c, next));
 
 app.get('/', c => c.redirect(c.env.CLIENT_URL));
 
