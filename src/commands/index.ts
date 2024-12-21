@@ -4,7 +4,7 @@ import updateCommand from './update';
 
 const commands = [
   pingCommand,
-  updateCommand
+  updateCommand,
 ] as BotCommand[];
 
 export default commands;

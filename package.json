@@ -11,7 +11,10 @@
     "rules": {
       "@typescript-eslint/object-curly-spacing": 0,
       "unicorn/no-await-expression-member": 0,
-      "@typescript-eslint/no-unnecessary-type-assertion": 0
+      "@typescript-eslint/no-unnecessary-type-assertion": 0,
+      "import/extensions": 0,
+      "n/file-extension-in-import": 0,
+      "@typescript-eslint/naming-convention": 0
     }
   },
   "scripts": {
