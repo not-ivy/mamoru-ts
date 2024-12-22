@@ -389,10 +389,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@noble/hashes@npm:^1.1.5":
-  version: 1.6.1
-  resolution: "@noble/hashes@npm:1.6.1"
-  checksum: 10c0/27643cd8b551bc933b57cc29aa8c8763d586552fc4c3e06ecf7897f55be3463c0c9dff7f6ebacd88e5ce6d0cdb5415ca4874d0cf4359b5ea4a85be21ada03aab
+"@lukeed/csprng@npm:^1.0.0":
+  version: 1.1.0
+  resolution: "@lukeed/csprng@npm:1.1.0"
+  checksum: 10c0/5d6dcf478af732972083ab2889c294b57f1028fa13c2c240d7a4aaa079c2c75df7ef0dcbdda5419147fc6704b4adf96b2de92f1a9a72ac21c6350c4014fffe6c
   languageName: node
   linkType: hard
 
@@ -491,15 +491,6 @@ __metadata:
   dependencies:
     "@oslojs/encoding": "npm:0.4.1"
   checksum: 10c0/aadcda3e5274293e07fca6842ef4f4dccecce11b1f7e655ad2f042983233eb5d121db981e9f64451b66abb417b66744371ce29743282df7319d40b420c3c93be
-  languageName: node
-  linkType: hard
-
-"@paralleldrive/cuid2@npm:^2.2.2":
-  version: 2.2.2
-  resolution: "@paralleldrive/cuid2@npm:2.2.2"
-  dependencies:
-    "@noble/hashes": "npm:^1.1.5"
-  checksum: 10c0/af5826df93de437121308f4f4ce0b2eeb89b60bb57a1a6592fb89c0d40d311ad1d9f3f6a4db2cce6f2bcf572de1aa3f85704254e89b18ce61c41ebb06564c4ee
   languageName: node
   linkType: hard
 
@@ -3498,11 +3489,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "mamoru-auth@workspace:."
   dependencies:
-    "@paralleldrive/cuid2": "npm:^2.2.2"
     "@types/xo": "npm:^0"
     arctic: "npm:^2.3.3"
     hono: "npm:^4.6.14"
     typescript: "npm:^5.7.2"
+    uid: "npm:^2.0.2"
     wrangler: "npm:^3.99.0"
     xo: "npm:^0.60.0"
   languageName: unknown
@@ -5146,6 +5137,15 @@ __metadata:
   version: 1.5.4
   resolution: "ufo@npm:1.5.4"
   checksum: 10c0/b5dc4dc435c49c9ef8890f1b280a19ee4d0954d1d6f9ab66ce62ce64dd04c7be476781531f952a07c678d51638d02ad4b98e16237be29149295b0f7c09cda765
+  languageName: node
+  linkType: hard
+
+"uid@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "uid@npm:2.0.2"
+  dependencies:
+    "@lukeed/csprng": "npm:^1.0.0"
+  checksum: 10c0/e9d02d0562c74e74b5a2519e586db9d7f8204978e476cddd191ee1a9efb85efafdbab2dbf3fc3dde0f5da01fd9da161f37d604dabf513447fd2c03d008f1324c
   languageName: node
   linkType: hard
 

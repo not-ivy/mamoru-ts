@@ -1,11 +1,12 @@
 import { generateState, OAuth2RequestError, type Discord } from 'arctic';
-import { createId as cuid2 } from '@paralleldrive/cuid2';
+import { uid } from 'uid/secure';
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import makeArctic from './libs/auth.js';
 import type { DiscordConnections, DiscordIdentify } from './types.js';
+import { cache } from 'hono/cache';
 
-const app = new Hono<{ Bindings: Env; Variables: { arctic: Discord } }>();
+const app = new Hono<{ Bindings: Env; Variables: { arctic: Discord; }; }>();
 
 app.use(async (c, next) => {
   c.set('arctic', makeArctic(c.env.DISCORD_CLIENT_ID, c.env.DISCORD_CLIENT_SECRET, c.env.DISCORD_REDIRECT_URI));
@@ -37,9 +38,9 @@ app.get('/callback', async c => {
 
     await c.env.states.delete(state);
     const token = await c.var.arctic.validateAuthorizationCode(code);
-    const id = cuid2();
+    const id = uid(32);
     await c.env.tokens.put(id, JSON.stringify(token.data), { expirationTtl: token.accessTokenExpiresInSeconds() });
-    return c.redirect(`${c.env.CLIENT_URL}/signin?id=${id}`);
+    return c.redirect(`${c.env.CLIENT_URL}/signin?userId=${id}`);
   } catch (error) {
     if (!(error instanceof OAuth2RequestError)) {
       console.error(error);
@@ -49,19 +50,24 @@ app.get('/callback', async c => {
   }
 });
 
+app.use('/info', cache({
+  cacheName: 'mamoru-auth',
+  cacheControl: 'public, max-age=10800, immutable',
+}));
+
 app.get('/info', async c => {
   try {
-    const { id } = c.req.query();
-    if (!id) {
+    const { userId } = c.req.query();
+    if (!userId) {
       return c.text('fail', 400);
     }
 
-    const tokenRaw = await c.env.tokens.get(id);
+    const tokenRaw = await c.env.tokens.get(userId);
     if (!tokenRaw) {
       return c.text('fail', 401);
     }
 
-    const token = JSON.parse(tokenRaw) as { token_type: string; access_token: string };
+    const token = JSON.parse(tokenRaw) as { token_type: string; access_token: string; };
     const authOptions = { headers: { authorization: `${token.token_type} ${token.access_token}` } };
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
     const identify = await (await (fetch('https://discord.com/api/users/@me', authOptions))).json() as DiscordIdentify;

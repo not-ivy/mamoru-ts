@@ -13,7 +13,6 @@
     }
   },
   "devDependencies": {
-    "@paralleldrive/cuid2": "^2.2.2",
     "@types/xo": "^0",
     "typescript": "^5.7.2",
     "wrangler": "^3.99.0",
@@ -21,7 +20,8 @@
   },
   "dependencies": {
     "arctic": "^2.3.3",
-    "hono": "^4.6.14"
+    "hono": "^4.6.14",
+    "uid": "^2.0.2"
   },
   "scripts": {
     "lint": "xo",
