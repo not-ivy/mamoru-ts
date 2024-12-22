@@ -1,9 +1,9 @@
 import type { BotCommand } from '../types';
-import pingCommand from './ping';
+import jokeCommand from './joke';
 import updateCommand from './update';
 
 const commands = [
-  pingCommand,
+  jokeCommand,
   updateCommand,
 ] as BotCommand[];
 

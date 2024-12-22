@@ -3,10 +3,23 @@ import { verifyKey } from 'discord-interactions';
 import {
   InteractionType, InteractionResponseType, type APIGuildInteraction, type APIPingInteraction, type RESTPutAPIApplicationCommandsResult,
   type APIInteractionResponse,
+  Routes,
+  ApplicationCommandType,
+  MessageFlags,
+  type APIChatInputApplicationCommandGuildInteraction,
+  type APIUserApplicationCommandGuildInteraction,
+  type APIMessageApplicationCommandGuildInteraction,
+  ApplicationCommandOptionType,
 } from 'discord-api-types/v10';
+import { REST } from '@discordjs/rest';
 import commands from './commands';
 
-const app = new Hono<{ Bindings: Env }>();
+const app = new Hono<{ Bindings: Env; Variables: { rest: REST; }; }>();
+
+app.use(async (c, next) => {
+  c.set('rest', new REST({ version: '10' }).setToken(c.env.DISCORD_BOT_TOKEN));
+  return next();
+});
 
 app.use('/interactions', async (c, next) => {
   const { 'x-signature-ed25519': sig, 'x-signature-timestamp': ts } = c.req.header();
@@ -18,26 +31,62 @@ app.use('/interactions', async (c, next) => {
 });
 
 app.post('/interactions', async c => {
-  const data = await c.req.json() as APIGuildInteraction | APIPingInteraction;
-  switch (data.type) {
+  const interaction = await c.req.json() as APIGuildInteraction | APIPingInteraction;
+  switch (interaction.type) {
     case InteractionType.Ping: {
       return c.json({ type: InteractionResponseType.Pong });
     }
 
     case InteractionType.ApplicationCommand: {
-      const cmd = commands.find(it => it.command.name === data.data.name);
+      const cmd = commands.find(it => it.command.name === interaction.data.name);
       if (!cmd) {
         return c.text('fail', 400);
       }
 
-      return c.json(await cmd.execute(data));
+      switch (interaction.data.type) {
+        case ApplicationCommandType.ChatInput: {
+          return c.json(await cmd.chatInputInteractionHandler!({
+            options: cmd.command.options ? cmd.command.options?.reduce<Record<string, unknown>>((previous, current) => ({
+              ...previous,
+              [current.name]: (interaction as APIChatInputApplicationCommandGuildInteraction).data.options?.filter(it => it.type !== ApplicationCommandOptionType.SubcommandGroup && it.type !== ApplicationCommandOptionType.Subcommand)?.find(it => it.name === current.name && it.type === current.type)?.value,
+            }), {}) : {},
+            interaction: interaction as APIChatInputApplicationCommandGuildInteraction,
+            rest: c.var.rest,
+          }));
+        }
+
+        case ApplicationCommandType.User: {
+          return c.json(await cmd.userInteractionHandler!({
+            interaction: interaction as APIUserApplicationCommandGuildInteraction,
+            rest: c.var.rest,
+            options: undefined,
+          }));
+        }
+
+        case ApplicationCommandType.Message: {
+          return c.json(await cmd.messageInteractionHandler!({
+            interaction: interaction as APIMessageApplicationCommandGuildInteraction,
+            rest: c.var.rest,
+            options: undefined,
+          }));
+        }
+      }
     }
 
+    // Case InteractionType.ModalSubmit: { }
+
+    // case InteractionType.MessageComponent: { }
+
+    // case InteractionType.ApplicationCommandAutocomplete: { }
+
+    // eslint-disable no-fallthrough
     default: {
+      console.log(interaction.type, interaction.data);
       return c.json({
         type: InteractionResponseType.ChannelMessageWithSource,
         data: {
-          content: 'interaction not supported at the moment.',
+          content: 'interaction not supported at the moment',
+          flags: MessageFlags.Ephemeral,
         },
       } as APIInteractionResponse);
     }
@@ -50,11 +99,10 @@ app.get('/refresh', async c => {
     return c.text('fail', 401);
   }
 
-  const registeredCommands = await (await fetch(`https://discord.com/api/applications/${c.env.DISCORD_CLIENT_ID}/commands`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json', Authorization: `Bot ${c.env.DISCORD_BOT_TOKEN}` },
-    body: JSON.stringify(commands.map(it => it.command)),
-  })).json() as RESTPutAPIApplicationCommandsResult;
+  const registeredCommands = await c.var.rest.put(
+    Routes.applicationCommands(c.env.DISCORD_CLIENT_ID),
+    { body: commands.map(it => it.command) },
+  ) as RESTPutAPIApplicationCommandsResult;
 
   return c.json(registeredCommands);
 });
