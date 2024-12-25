@@ -26,6 +26,7 @@
   "scripts": {
     "lint": "xo",
     "dev": "wrangler dev",
-    "types": "yarn wrangler types --experimental-include-runtime && yarn tsc"
+    "types": "yarn wrangler types --experimental-include-runtime && yarn tsc",
+    "deploy": "wrangler deploy"
   }
 }
