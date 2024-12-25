@@ -8,7 +8,11 @@ id = "40b7e9d19a0344d5b994c5c785228fed"
 
 [[ kv_namespaces ]]
 binding = "states"
-id = "1875b126281a45919b4bea0d8eaf7f7d"
+id = "28521ed8b5874ee1b99c83fee9a2b7ce"
+
+[[ kv_namespaces ]]
+binding = "index"
+id = "649944a213b149ca8a1d4883b3298d90"
 
 [observability]
 enabled = true

@@ -39,11 +39,11 @@ app.get('/callback', async c => {
     await c.env.states.delete(state);
     const token = await c.var.arctic.validateAuthorizationCode(code);
     const identify = await identifyDiscord(token.tokenType(), token.accessToken());
-    const existing = await c.env.tokens.get(identify.id);
+    const existing = await c.env.index.get(identify.id);
     if (existing) return c.redirect(`${c.env.CLIENT_URL}/signin?userId=${existing}`);
     const id = uid(32);
     await c.env.tokens.put(id, JSON.stringify(token.data), { expirationTtl: token.accessTokenExpiresInSeconds() });
-    await c.env.tokens.put(identify.id, id);
+    await c.env.index.put(identify.id, id);
     return c.redirect(`${c.env.CLIENT_URL}/signin?userId=${id}`);
   } catch (error) {
     if (!(error instanceof OAuth2RequestError)) {
@@ -79,6 +79,15 @@ app.get('/info', async c => {
   } catch {
     return c.text('fail', 500);
   }
+});
+
+app.get('/stats', async c => {
+  const token = c.req.header('Authorization');
+  if (token !== `Bearer ${c.env.DISCORD_CLIENT_SECRET}`) return c.text('fail', 401);
+  return c.json({
+    length: (await c.env.index.list()).keys.length,
+    users: (await c.env.index.list()).keys
+  });
 });
 
 export default app;
