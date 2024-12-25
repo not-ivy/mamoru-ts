@@ -2,9 +2,9 @@ import { generateState, OAuth2RequestError, type Discord } from 'arctic';
 import { uid } from 'uid/secure';
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
-import makeArctic from './libs/auth.js';
-import type { DiscordConnections, DiscordIdentify } from './types.js';
 import { cache } from 'hono/cache';
+import makeArctic from './libs/auth.js';
+import { connectionsDiscord, identifyDiscord } from './utils.js';
 
 const app = new Hono<{ Bindings: Env; Variables: { arctic: Discord; }; }>();
 
@@ -38,8 +38,12 @@ app.get('/callback', async c => {
 
     await c.env.states.delete(state);
     const token = await c.var.arctic.validateAuthorizationCode(code);
+    const identify = await identifyDiscord(token.tokenType(), token.accessToken());
+    const existing = await c.env.tokens.get(identify.id);
+    if (existing) return c.redirect(`${c.env.CLIENT_URL}/signin?userId=${existing}`);
     const id = uid(32);
     await c.env.tokens.put(id, JSON.stringify(token.data), { expirationTtl: token.accessTokenExpiresInSeconds() });
+    await c.env.tokens.put(identify.id, id);
     return c.redirect(`${c.env.CLIENT_URL}/signin?userId=${id}`);
   } catch (error) {
     if (!(error instanceof OAuth2RequestError)) {
@@ -68,11 +72,8 @@ app.get('/info', async c => {
     }
 
     const token = JSON.parse(tokenRaw) as { token_type: string; access_token: string; };
-    const authOptions = { headers: { authorization: `${token.token_type} ${token.access_token}` } };
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-    const identify = await (await (fetch('https://discord.com/api/users/@me', authOptions))).json() as DiscordIdentify;
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-    const connections = await (await fetch('https://discord.com/api/users/@me/connections', authOptions)).json() as DiscordConnections;
+    const identify = await identifyDiscord(token.token_type, token.access_token);
+    const connections = await connectionsDiscord(token.token_type, token.access_token);
     const steamConnection = connections.find(it => it.type === 'steam' && it.verified);
     return c.json({ name: identify.global_name, discord: identify.id, steam: steamConnection?.id });
   } catch {
