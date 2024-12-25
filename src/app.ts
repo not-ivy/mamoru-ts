@@ -90,4 +90,17 @@ app.get('/stats', async c => {
   });
 });
 
+app.get('/delete', async c => {
+  const token = c.req.header('Authorization')?.match(/Bearer (.*)/g);
+  if (!token || !token.length || token[0]) return c.text('fail', 401);
+  const discordToken = await c.env.tokens.get(token[0]);
+  if (!discordToken) return c.text('fail', 401);
+  try {
+    await c.var.arctic.revokeToken(discordToken);
+    return c.text('ok');
+  } catch (e) {
+    return c.text('fail', e instanceof OAuth2RequestError ? 401 : 500);
+  }
+});
+
 export default app;
