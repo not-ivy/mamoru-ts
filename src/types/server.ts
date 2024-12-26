@@ -6,6 +6,7 @@ type ServerStatusResponse = {
   auth_endpoint: string,
   plugin_api_version: string,
   mamoru_version: string;
+  online_players: number,
 };
 
 type ListPlayer = {

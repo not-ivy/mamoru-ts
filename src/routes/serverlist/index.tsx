@@ -1,7 +1,7 @@
 import { A } from '@solidjs/router';
 import { createResource, For, useContext } from 'solid-js';
 import AuthContext from '../../contexts/authContext';
-import type { ListPlayersResponse, ServerStatusResponse } from '../../types/server';
+import type { ServerStatusResponse } from '../../types/server';
 import { parse } from '@std/yaml';
 
 type ListEntry = { name: string, online: boolean, players: number, address: string; };
@@ -15,8 +15,7 @@ export default function ServerList() {
     for (const server of servers) {
       try {
         const data = parse(await (await fetch(`http://${server}/.well-known/mamoru/status`)).text()) as ServerStatusResponse;
-        const players = parse(await (await fetch(`http://${server}/players/list`)).text()) as ListPlayersResponse;
-        entries.push({ address: server, name: data.server_name, online: true, players: players.length });
+        entries.push({ address: server, name: data.server_name, online: true, players: data.online_players });
         storedServerData[server] = { name: data.server_name };
       } catch (error) {
         console.error(error);
