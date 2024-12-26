@@ -5,7 +5,7 @@ import { cors } from 'hono/cors';
 import { cache } from 'hono/cache';
 import makeArctic from './libs/auth.js';
 import { connectionsDiscord, identifyDiscord } from './utils.js';
-import type { RawToken } from './types.js';
+import type { InfoResponse, RawToken } from './types.js';
 
 const app = new Hono<{ Bindings: Env; Variables: { arctic: Discord; }; }>();
 
@@ -65,8 +65,8 @@ app.use('/info', cache({
 
 app.get('/info', async c => {
   try {
-    const token = /Bearer (.*)/g.exec(c.req.header('Authorization') || "");
-    if (!token || !token[1]) {
+    const token = /Bearer (.*)/g.exec(c.req.header('Authorization') ?? '');
+    if (!token?.[1]) {
       return c.text('fail', 401);
     }
 
@@ -79,7 +79,7 @@ app.get('/info', async c => {
     const identify = await identifyDiscord(discordToken.token_type, discordToken.access_token);
     const connections = await connectionsDiscord(discordToken.token_type, discordToken.access_token);
     const steamConnection = connections.find(it => it.type === 'steam' && it.verified);
-    return c.json({ name: identify.global_name, discord: identify.id, ...(steamConnection?.id ? { steam: steamConnection.id } : null) });
+    return c.json({ name: identify.global_name, discord: identify.id, ...(steamConnection?.id ? { steam: steamConnection.id } : null) } satisfies InfoResponse);
   } catch {
     return c.text('fail', 500);
   }
@@ -98,8 +98,8 @@ app.get('/stats', async c => {
 });
 
 app.get('/delete', async c => {
-  const token = /Bearer (.*)/g.exec(c.req.header('Authorization') || "");
-  if (!token || !token[1]) {
+  const token = /Bearer (.*)/g.exec(c.req.header('Authorization') ?? '');
+  if (!token?.[1]) {
     return c.text('fail', 401);
   }
 
