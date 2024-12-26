@@ -1,19 +1,23 @@
 import { useSearchParams } from "@solidjs/router";
+import { createSignal } from 'solid-js';
 import { effect } from "solid-js/web";
 
 export default function Signin() {
-  const [{ id }] = useSearchParams();
+  const [{ token }] = useSearchParams();
+  const [error, setError] = createSignal<undefined | Error>();
 
   effect(() => {
-    const userId = localStorage.getItem('userId');
-    fetch(`${import.meta.env['VITE_AUTH_ENDPOINT']}/info?id=${userId}`).then((res) => {
-      if (res.status != 200) return location.assign(`${import.meta.env['VITE_AUTH_ENDPOINT']}/create`);
-      return location.assign('/serverlist')
-    })
-    if (!id) return location.assign('/serverlist');
-    localStorage.setItem('userId', id.toString());
-    location.assign('/serverlist');
-  })
+    const providedToken = token || localStorage.getItem('token');
+    if (!providedToken) return location.assign(`${import.meta.env['VITE_AUTH_ENDPOINT']}/create`);
+    fetch(`${import.meta.env['VITE_AUTH_ENDPOINT']}/info`, { headers: { Authorization: `Bearer ${providedToken}` } })
+      .then(res => res.json())
+      .then((data) => {
+        console.log(data);
+        localStorage.setItem('token', providedToken.toString());
+        location.assign('/serverlist');
+      })
+      .catch(setError);
+  });
 
-  return (<main class="p-4"><p>you should be redirected soon...</p></main>)
+  return (<main class="p-4">{error() ? <p>error: <i>{error()?.message}</i></p> : <p>you should be redirected soon...</p>}</main>);
 }

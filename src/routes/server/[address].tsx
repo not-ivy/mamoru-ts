@@ -22,7 +22,7 @@ export default function Dashboard() {
       <nav class='w-full max-w-fit'>
         <ul class='flex flex-col gap-y-2'>
           <For each={routes}>
-            {((it) => <li aria-current={location.hash.slice(1) === it[0]} class={`${location.hash.slice(1) === it[0] ? 'bg-f-high text-b-high' : ''} transition-colors`}><a href={`#${it[0]}`}>{it[0]}</a></li>)}
+            {((it) => <a href={`#${it[0]}`}><li aria-current={location.hash.slice(1) === it[0]} class={`${location.hash.slice(1) === it[0] ? 'bg-f-high text-b-high' : ''} hover:bg-f-low transition-colors`}>{it[0]}</li></a>)}
           </For>
         </ul>
       </nav>

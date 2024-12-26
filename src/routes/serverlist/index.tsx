@@ -24,7 +24,7 @@ export default function ServerList() {
         </thead>
         <tbody class="leading-loose">
           <For each={serverList}>
-            {(it) => <tr class='not-last:border-b border-f-low border-dashed even:bg-b-low'><td>{it.name}</td><td class='hidden md:block'>{fmt.format(it.dateAdded)}</td><td>{Math.random() > 0.6 ? 'yes' : 'no'}</td><td class='hidden md:block'>{Math.floor(Math.random() * 100)} / 40</td><td><A href={`/server/${it.address}`} class='underline text-f-med'>go -&gt;</A></td></tr>}
+            {(it) => <tr class='not-last:border-b border-f-low border-dashed even:bg-b-low'><td>{it.name}</td><td class='hidden md:block'>{fmt.format(it.dateAdded)}</td><td>{Math.random() > 0.6 ? 'yes' : 'no'}</td><td class='hidden md:block'>{Math.floor(Math.random() * 100)} / 40</td><td><A href={`/server/${it.address}#overview`} class='underline text-f-med'>go -&gt;</A></td></tr>}
           </For>
         </tbody>
       </table>

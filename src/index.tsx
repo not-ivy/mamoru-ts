@@ -22,12 +22,12 @@ function Layout() {
   const [info, setInfo] = createSignal<UserInfo | null>(null);
 
   createEffect(() => {
-    let id = localStorage.getItem('userId');
-    if (!id) return;
-    fetch(`${import.meta.env['VITE_AUTH_ENDPOINT']}/info?id=${id}`)
+    const token = localStorage.getItem('token');
+    if (!token) return;
+    fetch(`${import.meta.env['VITE_AUTH_ENDPOINT']}/info`, { headers: { Authorization: `Bearer ${token}` } })
       .then((res) => res.json())
-      .then(setInfo)
-  })
+      .then(setInfo);
+  });
 
   return (
     <AuthContext.Provider value={info}>
