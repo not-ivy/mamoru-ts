@@ -7,7 +7,7 @@ import makeArctic from './libs/auth.js';
 import { connectionsDiscord, identifyDiscord } from './utils.js';
 import type { RawToken } from './types.js';
 
-const app = new Hono<{ Bindings: Env; Variables: { arctic: Discord } }>();
+const app = new Hono<{ Bindings: Env; Variables: { arctic: Discord; }; }>();
 
 app.use(async (c, next) => {
   c.set('arctic', makeArctic(c.env.DISCORD_CLIENT_ID, c.env.DISCORD_CLIENT_SECRET, c.env.DISCORD_REDIRECT_URI));
@@ -65,12 +65,12 @@ app.use('/info', cache({
 
 app.get('/info', async c => {
   try {
-    const token = c.req.header('Authorization')?.match(/Bearer (.*)/g);
-    if (!token || token.length === 0 || !token[0]) {
+    const token = /Bearer (.*)/g.exec(c.req.header('Authorization') || "");
+    if (!token || !token[1]) {
       return c.text('fail', 401);
     }
 
-    const tokenRaw = await c.env.tokens.get(token[0]);
+    const tokenRaw = await c.env.tokens.get(token[1]);
     if (!tokenRaw) {
       return c.text('fail', 401);
     }
@@ -98,18 +98,19 @@ app.get('/stats', async c => {
 });
 
 app.get('/delete', async c => {
-  const token = c.req.header('Authorization')?.match(/Bearer (.*)/g);
-  if (!token || token.length === 0 || token[0]) {
+  const token = /Bearer (.*)/g.exec(c.req.header('Authorization') || "");
+  if (!token || !token[1]) {
     return c.text('fail', 401);
   }
 
-  const discordToken = await c.env.tokens.get(token[0]);
-  if (!discordToken) {
+  const tokenRaw = await c.env.tokens.get(token[1]);
+  if (!tokenRaw) {
     return c.text('fail', 401);
   }
 
   try {
-    await c.var.arctic.revokeToken(discordToken);
+    const discordToken = JSON.parse(tokenRaw) as RawToken;
+    await c.var.arctic.revokeToken(discordToken.access_token);
     return c.text('ok');
   } catch (error) {
     return c.text('fail', error instanceof OAuth2RequestError ? 401 : 500);
