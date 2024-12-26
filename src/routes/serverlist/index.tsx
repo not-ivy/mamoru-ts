@@ -5,21 +5,25 @@ import type { ListPlayersResponse, ServerStatusResponse } from '../../types/serv
 import { parse } from '@std/yaml';
 
 type ListEntry = { name: string, online: boolean, players: number, address: string; };
+type StoredServerData = Record<string, { name: string; }>;
 
 export default function ServerList() {
   const addresses = JSON.parse(localStorage.getItem('servers') ?? '[]');
   const fetchServers = async (servers: string[]): Promise<ListEntry[]> => {
+    let storedServerData = JSON.parse(localStorage.getItem('storedServerData') ?? '{}') as StoredServerData;
     let entries: ListEntry[] = [];
     for (const server of servers) {
       try {
         const data = parse(await (await fetch(`http://${server}/.well-known/mamoru/status`)).text()) as ServerStatusResponse;
         const players = parse(await (await fetch(`http://${server}/players/list`)).text()) as ListPlayersResponse;
         entries.push({ address: server, name: data.server_name, online: true, players: players.length });
+        storedServerData[server] = { name: data.server_name };
       } catch (error) {
         console.error(error);
-        entries.push({ address: server, name: 'unavailable', online: false, players: 0 });
+        entries.push({ address: server, name: storedServerData[server]?.name ?? 'unavailable', online: false, players: NaN });
       }
     }
+    localStorage.setItem('storedServerData', JSON.stringify(storedServerData));
     return entries;
   };
   const [servers] = createResource(addresses, fetchServers);
@@ -40,7 +44,7 @@ export default function ServerList() {
         </thead>
         <tbody class="leading-loose">
           <For each={servers()}>
-            {(it) => <tr class='not-last:border-b border-f-low border-dashed even:bg-b-low'><td>{it.name}</td><td>{it.online ? 'yes' : 'no'}</td><td>{it.players}</td><td><A href={`/server/${it.address}#overview`} class='underline text-f-med'>go -&gt;</A></td></tr>}
+            {(it) => <tr class='not-last:border-b border-f-low border-dashed even:bg-b-low'><td>{it.name}</td><td>{it.online ? 'yes' : 'no'}</td><td>{isNaN(it.players) ? 'N/A' : it.players}</td><td><A href={`/server/${it.address}#overview`} class='underline text-f-med'>go -&gt;</A></td></tr>}
           </For>
         </tbody>
       </table>
