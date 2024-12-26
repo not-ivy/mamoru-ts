@@ -3,14 +3,10 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "xo": {
-    "spaces": true
-  },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "lint": "xo",
     "deploy": "wrangler pages deploy dist"
   },
   "dependencies": {

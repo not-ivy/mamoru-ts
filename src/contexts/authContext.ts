@@ -1,6 +1,6 @@
-import { createContext, type Accessor } from 'solid-js';
-import type { UserInfo } from '../types/auth';
+import { createContext, type Resource } from 'solid-js';
+import type { InfoResponse } from '../types/auth';
 
-const AuthContext = createContext<Accessor<UserInfo | null>>();
+const AuthContext = createContext<Resource<InfoResponse | null>>();
 
 export default AuthContext;

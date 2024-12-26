@@ -1,6 +1,6 @@
 /* @refresh reload */
 import { render } from 'solid-js/web';
-import { createEffect, createSignal } from 'solid-js';
+import { createResource } from 'solid-js';
 import { Route, Router } from '@solidjs/router';
 import Theme from '@iv/themes';
 import AddServer from './routes/addserver';
@@ -10,7 +10,7 @@ import Dashboard from './routes/server/[address]';
 import AuthContext from './contexts/authContext';
 import Landing from './routes';
 import Signin from './routes/signin';
-import type { UserInfo } from './types/auth';
+import type { InfoResponse } from './types/auth';
 
 import './index.css';
 
@@ -19,18 +19,11 @@ theme.install();
 theme.start();
 
 function Layout() {
-  const [info, setInfo] = createSignal<UserInfo | null>(null);
-
-  createEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) return;
-    fetch(`${import.meta.env['VITE_AUTH_ENDPOINT']}/info`, { headers: { Authorization: `Bearer ${token}` } })
-      .then((res) => res.json())
-      .then(setInfo);
-  });
+  const fetchAuth = async (token?: string): Promise<InfoResponse> => token ? (await fetch(`${import.meta.env['VITE_AUTH_ENDPOINT']}/info`, { headers: { Authorization: `Bearer ${token}` } })).json() : null;
+  const [authData] = createResource(() => localStorage.getItem('token'), fetchAuth);
 
   return (
-    <AuthContext.Provider value={info}>
+    <AuthContext.Provider value={authData}>
       <Router>
         <Route path='/' component={Landing} />
         <Route path='/addserver' component={AddServer} />

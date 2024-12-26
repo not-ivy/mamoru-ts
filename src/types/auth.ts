@@ -1,3 +1,8 @@
-type UserInfo = { name: string, discord: number, steam: number };
+// all corresponding types can be found here
+// https://git.sr.ht/~furry/mamoru-auth/tree/mistress/item/src/types.ts
 
-export type { UserInfo }
+type InfoResponse = { name: string, discord: string, steam?: string; };
+
+export type {
+  InfoResponse,
+};
