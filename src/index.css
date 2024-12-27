@@ -16,5 +16,8 @@
   --color-b-inv: var(--b_inv);
 }
 
-
 @variant not-last (&:not(:last-child));
+
+.active {
+  @apply bg-f-high text-b-low;
+}
