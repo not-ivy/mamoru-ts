@@ -18,5 +18,5 @@ export default function Landing() {
         </nav>
       </footer>
     </div>
-  )
+  );
 }

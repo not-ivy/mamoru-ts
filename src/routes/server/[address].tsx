@@ -7,6 +7,7 @@ import Overview from './(_components)/Overview';
 import ServerContext from '../../contexts/serverContext';
 import type { ServerStatusResponse } from '../../types/server';
 import AuthContext from '../../contexts/authContext';
+import { parse } from '@std/yaml';
 
 const routes = [
   ['overview', Overview, false],
@@ -18,7 +19,7 @@ const routes = [
 export default function Dashboard() {
   const location = useLocation();
   const params = useParams();
-  const fetchServer = async (address: string): Promise<ServerStatusResponse> => (await fetch(`http://${address}/.well-known/mamoru/status`)).json();
+  const fetchServer = async (address: string) => parse(await (await fetch(`http://${address}/.well-known/mamoru/status`)).text()) as ServerStatusResponse;
   const [serverData] = createResource(params['address'], fetchServer);
   const section = createMemo(() => routes.find((it) => it[0] === location.hash.slice(1)));
   const user = useContext(AuthContext)!;
@@ -34,6 +35,7 @@ export default function Dashboard() {
           </ul>
         </nav>
         <div class='w-full'>
+          {user() === null && <div class="mb-4 bg-f-med text-b-high px-6 py-2 mx-auto max-w-fit -skew-x-12"><h1 class='skew-x-12'>warning: you are currently not signed in.</h1></div>}
           {section() ? section()![1]() : <Error404 />}
         </div>
       </main>

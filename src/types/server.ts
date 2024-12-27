@@ -9,11 +9,17 @@ type ServerStatusResponse = {
   online_players: number,
 };
 
+type Badge = {
+  color: string,
+  name: string,
+};
+
 type ListPlayer = {
   id: number,
-  userId: string,
+  user_id: string,
   name: string,
   ra_authenticated: boolean;
+  badge?: Badge;
 };
 
 type ListPlayersResponse = ListPlayer[];
