@@ -2,7 +2,6 @@ import { generateState, OAuth2RequestError, type Discord } from 'arctic';
 import { uid } from 'uid/secure';
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
-import { cache } from 'hono/cache';
 import makeArctic from './libs/auth.js';
 import { connectionsDiscord, identifyDiscord } from './utils.js';
 import type { InfoResponse, RawToken } from './types.js';
@@ -57,11 +56,6 @@ app.get('/callback', async c => {
     return c.text('fail', error instanceof OAuth2RequestError ? 401 : 500);
   }
 });
-
-app.use('/info', cache({
-  cacheName: 'mamoru-auth',
-  cacheControl: 'public, max-age=10800, immutable',
-}));
 
 app.get('/info', async c => {
   try {
