@@ -10,13 +10,11 @@ export default function Signin() {
 
   effect(() => {
     const providedToken = token || localStorage.getItem('token');
-    console.log(providedToken);
     if (!providedToken && !authData()) return location.assign(`${import.meta.env['VITE_AUTH_ENDPOINT']}/create`);
     if (authData()) return location.assign('/serverlist');
     fetch(`${import.meta.env['VITE_AUTH_ENDPOINT']}/info`, { headers: { Authorization: `Bearer ${providedToken}` } })
       .then(res => res.json())
-      .then((data) => {
-        console.log(data);
+      .then(() => {
         localStorage.setItem('token', providedToken!.toString());
         location.assign('/serverlist');
       })
