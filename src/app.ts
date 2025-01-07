@@ -41,7 +41,7 @@ app.get('/callback', async c => {
     const token = await c.var.arctic.validateAuthorizationCode(code);
     const identify = await identifyDiscord(token.tokenType(), token.accessToken());
     const existing = await c.env.index.get(identify.id);
-    if (existing) {
+    if (existing && await c.env.tokens.get(existing)) {
       return c.redirect(`${c.env.CLIENT_URL}/signin?token=${existing}`);
     }
 
