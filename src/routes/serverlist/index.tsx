@@ -43,7 +43,7 @@ export default function ServerList() {
         </thead>
         <tbody class="leading-loose">
           <For each={servers()}>
-            {(it) => <tr class={`not-last:border-b border-f-low border-dashed even:bg-b-low ${it.online ? 'text-f-high' : 'text-f-low'}`}><td>{it.name}</td><td>{it.online ? 'yes' : 'no'}</td><td>{isNaN(it.players) ? 'N/A' : it.players}</td><td><A href={`/server/${it.address}#overview`} class={`underline ${it.online ? 'text-f-med' : 'pointer-events-none'}`}>go -&gt;</A></td></tr>}
+            {(it) => <tr class={`not-last:border-b border-f-low border-dashed even:bg-b-low ${it.online ? 'text-f-high' : 'text-f-low'}`}><td>{it.name}</td><td>{it.online ? 'yes' : 'no'}</td><td>{isNaN(it.players) ? 'N/A' : it.players}</td><td><A href={`/server/${it.address}/`} class={`underline ${it.online ? 'text-f-med' : 'pointer-events-none'}`}>go -&gt;</A></td></tr>}
           </For>
         </tbody>
       </table>
