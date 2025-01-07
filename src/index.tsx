@@ -22,7 +22,15 @@ theme.install();
 theme.start();
 
 function Layout() {
-  const fetchAuth = async (token?: string): Promise<InfoResponse> => token ? (await fetch(`${import.meta.env['VITE_AUTH_ENDPOINT']}/info`, { headers: { Authorization: `Bearer ${token}` } })).json() : null;
+  const fetchAuth = async (token?: string): Promise<InfoResponse | null> => {
+    try {
+      if (!token) return null;
+      return (await fetch(`${import.meta.env['VITE_AUTH_ENDPOINT']}/info`, { headers: { Authorization: `Bearer ${token}` } })).json();
+    } catch (e) {
+      console.error(e);
+      return null;
+    }
+  };
   const [authData] = createResource(() => localStorage.getItem('token'), fetchAuth);
 
   return (
