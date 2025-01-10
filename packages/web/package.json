@@ -1,0 +1,27 @@
+{
+  "name": "mamoru-web",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "deploy": "wrangler pages deploy dist"
+  },
+  "dependencies": {
+    "@iv/themes": "npm:@jsr/iv__themes@^1.0.2",
+    "@solidjs/router": "^0.15.2",
+    "@std/yaml": "npm:@jsr/std__yaml@^1.0.5",
+    "solid-js": "^1.9.3",
+    "tailwindcss": "^4.0.0-beta.7"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.0.0-beta.7",
+    "typescript": "~5.6.2",
+    "vite": "^6.0.1",
+    "vite-plugin-solid": "^2.11.0",
+    "wrangler": "^3.99.0"
+  },
+  "packageManager": "yarn@4.5.3"
+}

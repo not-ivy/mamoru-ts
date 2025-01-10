@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+@theme {
+  --font-mono: "Space Mono", monospace, monospace;
+
+  --color-background: var(--background);
+
+  --color-f-high: var(--f_high);
+  --color-f-med: var(--f_med);
+  --color-f-low: var(--f_low);
+  --color-f-inv: var(--f_inv);
+
+  --color-b-high: var(--b_high);
+  --color-b-med: var(--b_med);
+  --color-b-low: var(--b_low);
+  --color-b-inv: var(--b_inv);
+}
+
+@variant not-last (&:not(:last-child));
+
+.active {
+  @apply bg-f-high text-b-low;
+}
