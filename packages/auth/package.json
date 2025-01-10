@@ -1,0 +1,32 @@
+{
+  "name": "mamoru-auth",
+  "packageManager": "yarn@4.5.3",
+  "xo": {
+    "space": true,
+    "ignores": [
+      ".yarn",
+      "node_modules"
+    ],
+    "rules": {
+      "@typescript-eslint/object-curly-spacing": 0,
+      "unicorn/no-await-expression-member": 0
+    }
+  },
+  "devDependencies": {
+    "@types/xo": "^0",
+    "typescript": "^5.7.2",
+    "wrangler": "^3.99.0",
+    "xo": "^0.60.0"
+  },
+  "dependencies": {
+    "arctic": "^2.3.3",
+    "hono": "^4.6.14",
+    "uid": "^2.0.2"
+  },
+  "scripts": {
+    "lint": "xo",
+    "dev": "wrangler dev",
+    "types": "yarn wrangler types --experimental-include-runtime && yarn tsc",
+    "deploy": "wrangler deploy"
+  }
+}
