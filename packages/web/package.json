@@ -1,7 +1,6 @@
 {
-  "name": "mamoru-web",
+  "name": "@mamoru/web",
   "private": true,
-  "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -22,6 +21,5 @@
     "vite": "^6.0.1",
     "vite-plugin-solid": "^2.11.0",
     "wrangler": "^3.99.0"
-  },
-  "packageManager": "yarn@4.5.3"
+  }
 }
