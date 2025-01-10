@@ -12,7 +12,7 @@
     "uid": "^2.0.2"
   },
   "scripts": {
-    "dev": "wrangler dev",
+    "dev": "wrangler dev --port 8787",
     "types": "yarn wrangler types --experimental-include-runtime && yarn tsc",
     "deploy": "wrangler deploy"
   }

@@ -5,13 +5,10 @@
     "packages/*"
   ],
   "devDependencies": {
-    "concurrently": "^9.1.2",
     "typescript": "^5.7.3"
   },
   "scripts": {
-    "dev:auth": "yarn workspace @mamoru/auth dev",
-    "dev:bot": "yarn workspace @mamoru/bot dev",
-    "dev:web": "yarn workspace @mamoru/web dev",
-    "dev": "concurrently -c gray,red,blue \"yarn:dev:*\""
+    "dev": "yarn workspaces foreach --exclude mamoru -Api run dev",
+    "deploy": "yarn workspace foreach --exlude mamoru -A run deploy"
   }
 }
