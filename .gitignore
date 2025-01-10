@@ -6,3 +6,6 @@
 !.yarn/versions
 .pnp.*
 node_modules/
+.wrangler/
+*.local
+*.vars
