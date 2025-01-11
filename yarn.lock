@@ -1473,8 +1473,9 @@ __metadata:
   resolution: "@mamoru/auth@workspace:packages/auth"
   dependencies:
     "@mamoru/shared": "workspace:^"
+    "@trpc/client": "npm:^11.0.0-rc.694"
+    "@trpc/server": "npm:^11.0.0-rc.694"
     arctic: "npm:^2.3.3"
-    hono: "npm:^4.6.14"
     typescript: "npm:^5.7.2"
     uid: "npm:^2.0.2"
     wrangler: "npm:^3.99.0"
@@ -2499,6 +2500,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@trpc/client@npm:^11.0.0-rc.694":
+  version: 11.0.0-rc.694
+  resolution: "@trpc/client@npm:11.0.0-rc.694"
+  peerDependencies:
+    "@trpc/server": 11.0.0-rc.694+3d80a2221
+    typescript: ">=5.7.2"
+  checksum: 10c0/d2e0649a4636b23de7b4a50386e2015956ad6f5ba910f573bcb43446783388b7696834597c21fde59d02457f4bc31f2756991d0b0f38ea735fc440161927c2a7
+  languageName: node
+  linkType: hard
+
+"@trpc/server@npm:^11.0.0-rc.694":
+  version: 11.0.0-rc.694
+  resolution: "@trpc/server@npm:11.0.0-rc.694"
+  peerDependencies:
+    typescript: ">=5.7.2"
+  checksum: 10c0/ca161e1afd0564c8c79cf8974ab85b555b24ed8d3a5aed1578063f44a7e97ed0fe06aa5ea42eea3b8527833e4f76bd7007e4bd9fe06da8086b9dea9b592c1a01
+  languageName: node
+  linkType: hard
+
 "@types/babel__core@npm:^7.20.4":
   version: 7.20.5
   resolution: "@types/babel__core@npm:7.20.5"
@@ -2846,6 +2866,12 @@ __metadata:
   checksum: 10c0/b79ff32830e6b7faa009590af6ae0fb8c3fd9ffad46d930548fbb5acf473773b4712ae887e156ba91a7b3dc30591ce0f517d69fd83bd9c38650fdc03b4e0bac8
   languageName: node
   linkType: hard
+
+"db@workspace:packages/db":
+  version: 0.0.0-use.local
+  resolution: "db@workspace:packages/db"
+  languageName: unknown
+  linkType: soft
 
 "debug@npm:4, debug@npm:^4.1.0, debug@npm:^4.3.1, debug@npm:^4.3.4":
   version: 4.4.0
@@ -4388,6 +4414,12 @@ __metadata:
   checksum: 10c0/d4679609bb2a9b48eeaf84632b6d844128d2412b95b6de07d53d8ee8baf4ca0857c9331dfa510390a0727b550fd543d4d1a10995ad86cdf078423fbb8d99831d
   languageName: node
   linkType: hard
+
+"telemetry@workspace:packages/telemetry":
+  version: 0.0.0-use.local
+  resolution: "telemetry@workspace:packages/telemetry"
+  languageName: unknown
+  linkType: soft
 
 "tslib@npm:^2.2.0, tslib@npm:^2.6.2, tslib@npm:^2.6.3":
   version: 2.8.1
