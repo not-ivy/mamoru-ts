@@ -5,7 +5,7 @@ import makeArctic from './libs/auth';
 export default {
   async fetch(req, env) {
     const corsHeaders = {
-      'Access-Control-Allow-Origin': env.CLIENT_URL,
+      'Access-Control-Allow-Origin': (new URL(env.DISCORD_REDIRECT_URI)).host.replace(/:.*/g, ''),
       'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type, Authorization, Origin',
       'Access-Control-Allow-Credentials': 'true',
@@ -28,7 +28,7 @@ export default {
         cfEnv: env,
         req,
         resHeaders,
-        arctic: makeArctic(env.CLIENT_URL, env.DISCORD_CLIENT_SECRET, env.DISCORD_REDIRECT_URI)
+        arctic: makeArctic(env.DISCORD_CLIENT_ID, env.DISCORD_CLIENT_SECRET, env.DISCORD_REDIRECT_URI)
       })
     });
   }

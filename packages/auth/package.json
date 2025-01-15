@@ -1,6 +1,10 @@
 {
   "name": "@mamoru/auth",
   "private": true,
+  "type": "module",
+  "files": [
+    "./src/**/*.ts"
+  ],
   "devDependencies": {
     "@mamoru/shared": "workspace:^",
     "typescript": "^5.7.2",
@@ -10,6 +14,7 @@
     "@trpc/client": "^11.0.0-rc.694",
     "@trpc/server": "^11.0.0-rc.694",
     "arctic": "^2.3.3",
+    "runtypes": "^6.7.0",
     "uid": "^2.0.2"
   },
   "scripts": {

@@ -13,3 +13,5 @@ export const appRouter = router({
   remove,
   stats
 });
+
+export type AppRouter = typeof appRouter;
