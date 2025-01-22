@@ -10,7 +10,7 @@ export const TypeStatsResponse = T.Record({
 
 export default publicProcedure
   .output(TypeStatsResponse)
-  .mutation(async ({ ctx }) => {
+  .query(async ({ ctx }) => {
     const token = /Bearer (.*)/g.exec(ctx.req.headers.get('Authorization') ?? '');
     if (token?.[1] !== ctx.cfEnv.DISCORD_CLIENT_SECRET) throw new TRPCError({ code: "UNAUTHORIZED", message: "fail" });
 

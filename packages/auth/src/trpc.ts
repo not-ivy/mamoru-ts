@@ -1,6 +1,7 @@
 import { initTRPC, TRPCError } from '@trpc/server';
 import type { Discord } from 'arctic';
 import type { RawToken } from './types';
+import type { Env } from '../worker-configuration';
 
 export interface TrpcContext {
   cfEnv: Env;
