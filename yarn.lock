@@ -1468,7 +1468,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mamoru/auth@workspace:packages/auth":
+"@mamoru/auth@workspace:^, @mamoru/auth@workspace:packages/auth":
   version: 0.0.0-use.local
   resolution: "@mamoru/auth@workspace:packages/auth"
   dependencies:
@@ -1476,6 +1476,7 @@ __metadata:
     "@trpc/client": "npm:^11.0.0-rc.694"
     "@trpc/server": "npm:^11.0.0-rc.694"
     arctic: "npm:^2.3.3"
+    runtypes: "npm:^6.7.0"
     typescript: "npm:^5.7.2"
     uid: "npm:^2.0.2"
     wrangler: "npm:^3.99.0"
@@ -1507,12 +1508,15 @@ __metadata:
   resolution: "@mamoru/web@workspace:packages/web"
   dependencies:
     "@iv/themes": "npm:@jsr/iv__themes@^1.0.2"
+    "@mamoru/auth": "workspace:^"
     "@solidjs/router": "npm:^0.15.2"
     "@std/yaml": "npm:@jsr/std__yaml@^1.0.5"
     "@tailwindcss/vite": "npm:^4.0.0-beta.7"
+    "@trpc/client": "npm:^11.0.0-rc.695"
+    "@trpc/server": "npm:^11.0.0-rc.695"
     solid-js: "npm:^1.9.3"
     tailwindcss: "npm:^4.0.0-beta.7"
-    typescript: "npm:~5.6.2"
+    typescript: "npm:^5.7.3"
     vite: "npm:^6.0.1"
     vite-plugin-solid: "npm:^2.11.0"
     wrangler: "npm:^3.99.0"
@@ -2510,12 +2514,31 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@trpc/client@npm:^11.0.0-rc.695":
+  version: 11.0.0-rc.695
+  resolution: "@trpc/client@npm:11.0.0-rc.695"
+  peerDependencies:
+    "@trpc/server": 11.0.0-rc.695+01bdfa997
+    typescript: ">=5.7.2"
+  checksum: 10c0/22c18b01faf4df530e24938c42e5008f62073bbe640c15932aab42849367dd43a9c01b2d553925d2630f8ac36844a98508dff36ffb5ce49b8e00d12552d52807
+  languageName: node
+  linkType: hard
+
 "@trpc/server@npm:^11.0.0-rc.694":
   version: 11.0.0-rc.694
   resolution: "@trpc/server@npm:11.0.0-rc.694"
   peerDependencies:
     typescript: ">=5.7.2"
   checksum: 10c0/ca161e1afd0564c8c79cf8974ab85b555b24ed8d3a5aed1578063f44a7e97ed0fe06aa5ea42eea3b8527833e4f76bd7007e4bd9fe06da8086b9dea9b592c1a01
+  languageName: node
+  linkType: hard
+
+"@trpc/server@npm:^11.0.0-rc.695":
+  version: 11.0.0-rc.695
+  resolution: "@trpc/server@npm:11.0.0-rc.695"
+  peerDependencies:
+    typescript: ">=5.7.2"
+  checksum: 10c0/6d49e03e0fda12ed3137d4ce0a7701418000cfcefdb180514d8f0711a8f63131d1f17c3cabc751f9d2d436acdb613c7906381dec8586751f233ea3963af2ce6a
   languageName: node
   linkType: hard
 
@@ -4153,6 +4176,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"runtypes@npm:^6.7.0":
+  version: 6.7.0
+  resolution: "runtypes@npm:6.7.0"
+  checksum: 10c0/9799065e3cb9d924d5dbfd0253cf49d90cd0506e0d1ac42f491b5287829d9353f7b5861c5ed3a97e094bf5948225ababfc62e909f3f26cd8e5eba2bb64290a07
+  languageName: node
+  linkType: hard
+
 "safer-buffer@npm:>= 2.1.2 < 3.0.0":
   version: 2.1.2
   resolution: "safer-buffer@npm:2.1.2"
@@ -4438,16 +4468,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:~5.6.2":
-  version: 5.6.3
-  resolution: "typescript@npm:5.6.3"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 10c0/44f61d3fb15c35359bc60399cb8127c30bae554cd555b8e2b46d68fa79d680354b83320ad419ff1b81a0bdf324197b29affe6cc28988cd6a74d4ac60c94f9799
-  languageName: node
-  linkType: hard
-
 "typescript@patch:typescript@npm%3A^5.7.2#optional!builtin<compat/typescript>, typescript@patch:typescript@npm%3A^5.7.3#optional!builtin<compat/typescript>":
   version: 5.7.3
   resolution: "typescript@patch:typescript@npm%3A5.7.3#optional!builtin<compat/typescript>::version=5.7.3&hash=5786d5"
@@ -4455,16 +4475,6 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 10c0/6fd7e0ed3bf23a81246878c613423730c40e8bdbfec4c6e4d7bf1b847cbb39076e56ad5f50aa9d7ebd89877999abaee216002d3f2818885e41c907caaa192cc4
-  languageName: node
-  linkType: hard
-
-"typescript@patch:typescript@npm%3A~5.6.2#optional!builtin<compat/typescript>":
-  version: 5.6.3
-  resolution: "typescript@patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 10c0/7c9d2e07c81226d60435939618c91ec2ff0b75fbfa106eec3430f0fcf93a584bc6c73176676f532d78c3594fe28a54b36eb40b3d75593071a7ec91301533ace7
   languageName: node
   linkType: hard
 
