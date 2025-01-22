@@ -1,25 +1,13 @@
-import { useSearchParams } from "@solidjs/router";
-import { createSignal, useContext } from 'solid-js';
-import { effect } from "solid-js/web";
-import AuthContext from '../contexts/authContext';
+import { createEffect, createResource } from 'solid-js';
+import { trpc } from '../trpc';
 
 export default function Signin() {
-  const [{ token }] = useSearchParams();
-  const [error, setError] = createSignal<undefined | Error>();
-  const authData = useContext(AuthContext)!;
+  const [signInUrl] = createResource(() => trpc.create.mutate());
 
-  effect(() => {
-    const providedToken = token || localStorage.getItem('token');
-    if (!providedToken && !authData()) return location.assign(`${import.meta.env['VITE_AUTH_ENDPOINT']}/create`);
-    if (authData()) return location.assign('/serverlist');
-    fetch(`${import.meta.env['VITE_AUTH_ENDPOINT']}/info`, { headers: { Authorization: `Bearer ${providedToken}` } })
-      .then(res => res.json())
-      .then(() => {
-        localStorage.setItem('token', providedToken!.toString());
-        location.assign('/serverlist');
-      })
-      .catch(setError);
-  });
+  createEffect(() => {
+    if (signInUrl.loading) return;
+    return location.assign(signInUrl()!);
+  }, []);
 
-  return (<main class="p-4">{error() ? <p>error: <i>{error()?.message}</i></p> : <p>you should be redirected soon...</p>}</main>);
+  return (<main class="p-4">{signInUrl.error ? (<><h1 class="font-bold">error:</h1><code>{signInUrl.error.toString()}</code></>) : (<p>you should be redirected soon...</p>)}</main>);
 }

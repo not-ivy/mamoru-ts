@@ -1,7 +1,7 @@
 import { createResource, For } from 'solid-js';
 import { parse } from '@std/yaml';
 import { useParams } from '@solidjs/router';
-import type { ListPlayersResponse } from '../../../../types/server';
+import type { ListPlayersResponse } from '../../../../../types/server';
 
 export default function OnlineTable() {
   const params = useParams();

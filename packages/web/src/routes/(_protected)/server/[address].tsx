@@ -1,19 +1,16 @@
 import { A, useParams } from '@solidjs/router';
-import { createResource, useContext, type JSXElement } from 'solid-js';
-import ServerContext from '../../contexts/serverContext';
-import type { ServerStatusResponse } from '../../types/server';
-import AuthContext from '../../contexts/authContext';
+import { createEffect, createResource, type JSXElement } from 'solid-js';
+import type { ServerStatusResponse } from '../../../types/server';
 import { parse } from '@std/yaml';
+import ServerProvider from '../../../contexts/ServerContext';
 
 export default function ServerLayout(props: { children?: JSXElement; }) {
   const params = useParams();
   const fetchServer = async (address: string) => parse(await (await fetch(`http://${address}/.well-known/mamoru/status`)).text()) as ServerStatusResponse;
   const [serverData] = createResource(params['address'], fetchServer);
-  const user = useContext(AuthContext)!;
-
 
   return (
-    <ServerContext.Provider value={serverData}>
+    <ServerProvider value={serverData}>
       <main class='p-8 flex gap-x-16'>
         <nav class='w-full max-w-fit'>
           <ul class='flex flex-col gap-y-2'>
@@ -23,10 +20,9 @@ export default function ServerLayout(props: { children?: JSXElement; }) {
           </ul>
         </nav>
         <div class='w-full'>
-          {user() === null && <div class="mb-4 bg-f-med text-b-high px-6 py-2 mx-auto max-w-fit -skew-x-12"><h1 class='skew-x-12'>warning: you are currently not signed in.</h1></div>}
           {props.children}
         </div>
       </main>
-    </ServerContext.Provider>
+    </ServerProvider>
   );
 }

@@ -1,13 +1,15 @@
 import { A } from '@solidjs/router';
-import { createResource, For, useContext } from 'solid-js';
-import AuthContext from '../../contexts/authContext';
-import type { ServerStatusResponse } from '../../types/server';
+import { createResource, For } from 'solid-js';
+import type { ServerStatusResponse } from '../../../types/server';
 import { parse } from '@std/yaml';
+import { useUser } from '../../../contexts/UserContext';
 
 type ListEntry = { name: string, online: boolean, players: number, address: string; };
 type StoredServerData = Record<string, { name: string; }>;
 
 export default function ServerList() {
+  const user = useUser();
+
   const addresses = JSON.parse(localStorage.getItem('servers') ?? '[]');
   const fetchServers = async (servers: string[]): Promise<ListEntry[]> => {
     let storedServerData = JSON.parse(localStorage.getItem('storedServerData') ?? '{}') as StoredServerData;
@@ -17,8 +19,7 @@ export default function ServerList() {
         const data = parse(await (await fetch(`http://${server}/.well-known/mamoru/status`)).text()) as ServerStatusResponse;
         entries.push({ address: server, name: data.server_name, online: true, players: data.online_players });
         storedServerData[server] = { name: data.server_name };
-      } catch (error) {
-        console.error(error);
+      } catch {
         entries.push({ address: server, name: storedServerData[server]?.name ?? 'unavailable', online: false, players: NaN });
       }
     }
@@ -26,19 +27,18 @@ export default function ServerList() {
     return entries;
   };
   const [servers] = createResource(addresses, fetchServers);
-  const user = useContext(AuthContext)!;
 
   return (
     <main class='p-8'>
-      <h1>welcome back, {user() ? user()?.name : 'user'}.</h1>
-      <h3 class='mt-4 mb-2'>your saved servers:</h3>
+      <h1 class="mb-4">welcome back, {user()?.name}. {user()?.name === 'guest' && <span class="italic">you may want to sign in <A href="/signin" class="underline text-f-med">here</A>.</span>}</h1>
+      <h3 class='mb-2'>your saved servers:</h3>
       <table class='min-w-full'>
         <thead class='border-b-2 border-f-low font-semibold'>
           <tr>
             <td>name</td>
             <td>online?</td>
-            <td>online players</td>
-            <td>dashboard link</td>
+            <td>players</td>
+            <td>dashboard</td>
           </tr>
         </thead>
         <tbody class="leading-loose">
