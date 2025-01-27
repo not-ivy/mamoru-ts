@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  --font-mono: "Space Mono", monospace, monospace;
+  --font-mono: "Commit Mono", monospace, monospace;
 
   --color-background: var(--background);
 
