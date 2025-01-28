@@ -13,8 +13,8 @@ export type InfoResponse = T.Static<typeof TypeInfoResponse>;
 export default protectedProcedure
   .output(TypeInfoResponse)
   .query(async ({ ctx }) => {
-    const identify = await identifyDiscord(ctx.token.token_type, ctx.token.access_token);
-    const connections = await connectionsDiscord(ctx.token.token_type, ctx.token.access_token);
+    const identify = await identifyDiscord(ctx.auth.dtt, ctx.auth.dat);
+    const connections = await connectionsDiscord(ctx.auth.dtt, ctx.auth.dat);
     const steamConnection = connections.find(it => it.type === 'steam' && it.verified);
     return {
       name: identify.global_name,

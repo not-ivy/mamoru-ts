@@ -5,7 +5,6 @@ import * as T from 'runtypes';
 export const TypeStatsResponse = T.Record({
   users: T.Number,
   states: T.Number,
-  tokens: T.Number
 });
 
 export default publicProcedure
@@ -15,8 +14,7 @@ export default publicProcedure
     if (token?.[1] !== ctx.cfEnv.DISCORD_CLIENT_SECRET) throw new TRPCError({ code: "UNAUTHORIZED", message: "fail" });
 
     return {
-      users: (await ctx.cfEnv.index.list()).keys.length,
       states: (await ctx.cfEnv.states.list()).keys.length,
-      tokens: (await ctx.cfEnv.tokens.list()).keys.length,
+      users: (await ctx.cfEnv.users.list()).keys.length
     };
   });

@@ -3,16 +3,16 @@ main = "src/app.ts"
 compatibility_date = "2024-12-05"
 
 [[ kv_namespaces ]]
-binding = "tokens"
-id = "40b7e9d19a0344d5b994c5c785228fed"
-
-[[ kv_namespaces ]]
 binding = "states"
 id = "28521ed8b5874ee1b99c83fee9a2b7ce"
 
 [[ kv_namespaces ]]
-binding = "index"
-id = "649944a213b149ca8a1d4883b3298d90"
+binding = "users"
+id = "e576988b-cf3d-46b5-a9ae-16806ede0fd8"
+
+[[ kv_namespaces ]]
+binding = "persist"
+id = "fe5def91-aca4-4ca7-bf77-f03224631520"
 
 [observability]
 enabled = true
