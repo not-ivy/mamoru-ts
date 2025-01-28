@@ -13,6 +13,8 @@ export type InfoResponse = T.Static<typeof TypeInfoResponse>;
 export default protectedProcedure
   .output(TypeInfoResponse)
   .query(async ({ ctx }) => {
+    ctx.resHeaders.append('Cache-Control', 'max-age=1800, must-revalidate');
+    ctx.resHeaders.append('Vary', 'Cookie, Authorization');
     const identify = await identifyDiscord(ctx.auth.dtt, ctx.auth.dat);
     const connections = await connectionsDiscord(ctx.auth.dtt, ctx.auth.dat);
     const steamConnection = connections.find(it => it.type === 'steam' && it.verified);
