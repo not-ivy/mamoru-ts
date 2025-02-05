@@ -3,7 +3,8 @@
   "compilerOptions": {
     "target": "esnext",
     "lib": [
-      "ESNext"
+      "ESNext",
+      "DOM"
     ],
     "types": [
       "./.wrangler/types/runtime.d.ts",
