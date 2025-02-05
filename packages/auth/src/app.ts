@@ -29,7 +29,7 @@ export default {
       });
     }
 
-    if ((new URL(req.url)).pathname === '/.well-known/jwks.json') {
+    if ((new URL(req.url)).pathname === '/.well-known/jwk.json') {
       return new Response(JSON.stringify(await exportJWK(publicKey)), {
         headers: {
           'Content-Type': 'application/json'

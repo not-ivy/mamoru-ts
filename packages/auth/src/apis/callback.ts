@@ -1,6 +1,6 @@
 import { TRPCError } from '@trpc/server';
 import { publicProcedure } from '../trpc';
-import { identifyDiscord } from '../libs/discord';
+import { connectionsDiscord, identifyDiscord } from '../libs/discord';
 import * as T from 'runtypes';
 import { OAuth2RequestError } from 'arctic';
 import { SignJWT } from 'jose';
@@ -15,9 +15,10 @@ export default publicProcedure
       await ctx.cfEnv.states.delete(input.state);
       const token = await ctx.arctic.validateAuthorizationCode(input.code);
       const identify = await identifyDiscord(token.tokenType(), token.accessToken());
+      const connections = await connectionsDiscord(token.tokenType(), token.accessToken());
       const iat = Math.floor(Date.now() / 1000);
       ctx.cfEnv.users.put(identify.id, JSON.stringify({ minimumIat: iat, dtt: token.tokenType(), dat: token.accessToken() } satisfies UserStore));
-      const jwt = await (new SignJWT())
+      const jwt = await (new SignJWT({ name: identify.global_name, steamId: connections.find(it => it.type === 'steam' && it.verified)?.id }))
         .setProtectedHeader({ alg: 'ES256' })
         .setIssuedAt(iat)
         .setIssuer(ctx.cfEnv.APP_URL)
