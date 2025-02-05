@@ -15,7 +15,7 @@
     "@trpc/server": "^11.0.0-rc.730",
     "arctic": "^2.3.4",
     "jose": "^5.9.6",
-    "runtypes": "^6.7.0"
+    "runtypes": "^7.0.3"
   },
   "scripts": {
     "dev": "wrangler dev --port 8787",

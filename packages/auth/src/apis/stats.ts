@@ -2,10 +2,12 @@ import { TRPCError } from '@trpc/server';
 import { publicProcedure } from '../trpc';
 import * as T from 'runtypes';
 
-export const TypeStatsResponse = T.Record({
+export const TypeStatsResponse = T.Object({
   users: T.Number,
   states: T.Number,
 });
+
+export type StatsResponse = T.Static<typeof TypeStatsResponse>;
 
 export default publicProcedure
   .output(TypeStatsResponse)
@@ -16,5 +18,5 @@ export default publicProcedure
     return {
       states: (await ctx.cfEnv.states.list()).keys.length,
       users: (await ctx.cfEnv.users.list()).keys.length
-    };
+    } satisfies StatsResponse;
   });

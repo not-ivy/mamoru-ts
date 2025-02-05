@@ -742,7 +742,7 @@ __metadata:
     "@trpc/server": "npm:^11.0.0-rc.730"
     arctic: "npm:^2.3.4"
     jose: "npm:^5.9.6"
-    runtypes: "npm:^6.7.0"
+    runtypes: "npm:^7.0.3"
     typescript: "npm:^5.7.3"
     wrangler: "npm:^3.107.3"
   languageName: unknown
@@ -2675,13 +2675,6 @@ __metadata:
   bin:
     rollup: dist/bin/rollup
   checksum: 10c0/f5bb9f40f3e27b6f9c94a5c69e3e81fe4208ca631dd988064347890556694b0bc29543d81e5336921ce0b694cf7e2bce910b037342c899c0f7d36d82d917d1a1
-  languageName: node
-  linkType: hard
-
-"runtypes@npm:^6.7.0":
-  version: 6.7.0
-  resolution: "runtypes@npm:6.7.0"
-  checksum: 10c0/9799065e3cb9d924d5dbfd0253cf49d90cd0506e0d1ac42f491b5287829d9353f7b5861c5ed3a97e094bf5948225ababfc62e909f3f26cd8e5eba2bb64290a07
   languageName: node
   linkType: hard
 

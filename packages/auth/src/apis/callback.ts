@@ -7,7 +7,7 @@ import { SignJWT } from 'jose';
 import type { UserStore } from '../types';
 
 export default publicProcedure
-  .input(T.Record({ state: T.String, code: T.String }))
+  .input(T.Object({ state: T.String, code: T.String }))
   .output(T.String)
   .mutation(async ({ input, ctx }) => {
     try {

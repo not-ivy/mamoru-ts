@@ -2,10 +2,10 @@ import { protectedProcedure } from '../trpc';
 import { identifyDiscord, connectionsDiscord } from '../libs/discord';
 import * as T from 'runtypes';
 
-export const TypeInfoResponse = T.Record({
+export const TypeInfoResponse = T.Object({
   name: T.String,
   discord: T.String,
-  steam: T.String.optional(),
+  steam: T.String.undefinedable(),
 });
 
 export type InfoResponse = T.Static<typeof TypeInfoResponse>;
@@ -22,5 +22,5 @@ export default protectedProcedure
       name: identify.global_name,
       discord: identify.id,
       steam: steamConnection?.id,
-    };
+    } satisfies InfoResponse;
   });
