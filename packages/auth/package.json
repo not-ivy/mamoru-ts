@@ -7,13 +7,13 @@
   ],
   "devDependencies": {
     "@mamoru/shared": "workspace:^",
-    "typescript": "^5.7.2",
-    "wrangler": "^3.99.0"
+    "typescript": "^5.7.3",
+    "wrangler": "^3.107.3"
   },
   "dependencies": {
-    "@trpc/client": "^11.0.0-rc.694",
-    "@trpc/server": "^11.0.0-rc.694",
-    "arctic": "^2.3.3",
+    "@trpc/client": "^11.0.0-rc.730",
+    "@trpc/server": "^11.0.0-rc.730",
+    "arctic": "^2.3.4",
     "jose": "^5.9.6",
     "runtypes": "^6.7.0"
   },
