@@ -1461,13 +1461,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lukeed/csprng@npm:^1.0.0":
-  version: 1.1.0
-  resolution: "@lukeed/csprng@npm:1.1.0"
-  checksum: 10c0/5d6dcf478af732972083ab2889c294b57f1028fa13c2c240d7a4aaa079c2c75df7ef0dcbdda5419147fc6704b4adf96b2de92f1a9a72ac21c6350c4014fffe6c
-  languageName: node
-  linkType: hard
-
 "@mamoru/auth@workspace:^, @mamoru/auth@workspace:packages/auth":
   version: 0.0.0-use.local
   resolution: "@mamoru/auth@workspace:packages/auth"
@@ -1476,9 +1469,9 @@ __metadata:
     "@trpc/client": "npm:^11.0.0-rc.694"
     "@trpc/server": "npm:^11.0.0-rc.694"
     arctic: "npm:^2.3.3"
+    jose: "npm:^5.9.6"
     runtypes: "npm:^6.7.0"
     typescript: "npm:^5.7.2"
-    uid: "npm:^2.0.2"
     wrangler: "npm:^3.99.0"
   languageName: unknown
   linkType: soft
@@ -1514,6 +1507,7 @@ __metadata:
     "@tailwindcss/vite": "npm:^4.0.0-beta.7"
     "@trpc/client": "npm:^11.0.0-rc.695"
     "@trpc/server": "npm:^11.0.0-rc.695"
+    runtypes: "npm:^7.0.0"
     solid-js: "npm:^1.9.3"
     tailwindcss: "npm:^4.0.0-beta.7"
     typescript: "npm:^5.7.3"
@@ -2890,12 +2884,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"db@workspace:packages/db":
-  version: 0.0.0-use.local
-  resolution: "db@workspace:packages/db"
-  languageName: unknown
-  linkType: soft
-
 "debug@npm:4, debug@npm:^4.1.0, debug@npm:^4.3.1, debug@npm:^4.3.4":
   version: 4.4.0
   resolution: "debug@npm:4.4.0"
@@ -3453,6 +3441,13 @@ __metadata:
   bin:
     jiti: lib/jiti-cli.mjs
   checksum: 10c0/4ceac133a08c8faff7eac84aabb917e85e8257f5ad659e843004ce76e981c457c390a220881748ac67ba1b940b9b729b30fb85cbaf6e7989f04b6002c94da331
+  languageName: node
+  linkType: hard
+
+"jose@npm:^5.9.6":
+  version: 5.9.6
+  resolution: "jose@npm:5.9.6"
+  checksum: 10c0/d6bcd8c7d655b5cda8e182952a76f0c093347f5476d74795405bb91563f7ab676f61540310dd4b1531c60d685335ceb600571a409551d2cbd2ab3e9f9fbf1e4d
   languageName: node
   linkType: hard
 
@@ -4183,6 +4178,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"runtypes@npm:^7.0.0":
+  version: 7.0.1
+  resolution: "runtypes@npm:7.0.1"
+  checksum: 10c0/9132fef3434cc671fb1f0f53395ce20419fd11f518deab776d26a64aecec951f5c7d8c8c4acd6b0ba7fd7484eb7dec695ace72a6afe83a40413654ed2fd4cdd5
+  languageName: node
+  linkType: hard
+
 "safer-buffer@npm:>= 2.1.2 < 3.0.0":
   version: 2.1.2
   resolution: "safer-buffer@npm:2.1.2"
@@ -4445,12 +4447,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"telemetry@workspace:packages/telemetry":
-  version: 0.0.0-use.local
-  resolution: "telemetry@workspace:packages/telemetry"
-  languageName: unknown
-  linkType: soft
-
 "tslib@npm:^2.2.0, tslib@npm:^2.6.2, tslib@npm:^2.6.3":
   version: 2.8.1
   resolution: "tslib@npm:2.8.1"
@@ -4482,15 +4478,6 @@ __metadata:
   version: 1.5.4
   resolution: "ufo@npm:1.5.4"
   checksum: 10c0/b5dc4dc435c49c9ef8890f1b280a19ee4d0954d1d6f9ab66ce62ce64dd04c7be476781531f952a07c678d51638d02ad4b98e16237be29149295b0f7c09cda765
-  languageName: node
-  linkType: hard
-
-"uid@npm:^2.0.2":
-  version: 2.0.2
-  resolution: "uid@npm:2.0.2"
-  dependencies:
-    "@lukeed/csprng": "npm:^1.0.0"
-  checksum: 10c0/e9d02d0562c74e74b5a2519e586db9d7f8204978e476cddd191ee1a9efb85efafdbab2dbf3fc3dde0f5da01fd9da161f37d604dabf513447fd2c03d008f1324c
   languageName: node
   linkType: hard
 
